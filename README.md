@@ -31,27 +31,10 @@ Esse bloco de código executa uma inserção de dados em um banco de dados SQLit
 
 Após a inserção de todos os dados, as alterações são confirmadas (comitadas) e a conexão com o banco de dados é fechada. O objetivo desse bloco de código é gerar dados aleatórios para a tabela "**api_summary**", de modo que o script FutureCast possa fazer a projeção de valores futuros para as APIs e aplicativos a partir desses dados históricos.
 
-Código Fonte do script **insert_fake-data.py**:
-```
-import sqlite3
-import pandas as pd
-import random
-from datetime import datetime, timedelta
-conn = sqlite3.connect('api_data.db')
-cur = conn.cursor()
+O Código fonte está no script insert_fake-data.py deste projeto:
 
-data_atual = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-data_inicial = data_atual - timedelta(days=29)
+[insert_fake-data.py](https://github.com/leoberbert/FutureCast/blob/main/insert_fake-data.py)
 
-intervalo_datas = pd.date_range(data_inicial, data_atual, freq='H')
-
-for data_hora_atual in intervalo_datas:
-    total = random.randint(1000, 10000)
-    cur.execute("INSERT INTO api_summary (data, application, api, total) VALUES (?, ?, ?, ?)", (data_hora_atual.strftime('%Y-%m-%d %H:%M:%S'), 'vivaolinux', '/artigos/v1', total))
-
-conn.commit()
-conn.close()
-```
 Se quiser inserir dados de outras APIs ou aplicativos na tabela "**api_summary**", você deve alterar o bloco abaixo:
 ```
 cur.execute("INSERT INTO api_summary (data, application, api, total) VALUES (?, ?, ?, ?)", (data_hora_atual.strftime('%Y-%m-%d %H:%M'), 'vivaolinux', '/artigos/v1', total))
@@ -63,3 +46,25 @@ cur.execute("INSERT INTO api_summary (data, application, api, total) VALUES (?, 
 Nesse exemplo, a aplicação é "meuapp" e a API é "/api/v2". O valor de "total" ainda é gerado aleatoriamente entre 1000 e 10000. É importante lembrar que, ao adicionar novas APIs ou aplicativos, é necessário ajustar o script FutureCast para considerar esses novos dados em suas projeções.
 
 Agora que temos os dados, iremos fazer a projeção.
+
+# Projetando dados Futuros
+
+
+O primeiro bloco do código importa bibliotecas importantes para o script, como a biblioteca sqlite3 para se conectar ao banco de dados, a biblioteca pandas para manipular os dados, a biblioteca scikit-learn para realizar a regressão linear e a biblioteca logging para registrar eventos e erros.
+
+Em seguida, o script configura o logger para criar logs das atividades da aplicação. Para isso, é criado um objeto logger e é definido o nível do logger como logging.INFO para indicar que o registro deve ser feito apenas em nível de informação. Em seguida, é verificado se a pasta logs já existe e, se não existir, é criada. O nome do arquivo de log é baseado no nome do script e é criado um manipulador de arquivos rotativos para o log, que é configurado para armazenar as mensagens de log diariamente. Por fim, o manipulador de arquivos é adicionado ao logger.
+
+Em seguida, o script se conecta ao banco de dados usando o sqlite3.connect e cria a tabela api_projection se ela ainda não existir. Além disso, são criados índices na tabela api_projection para melhorar a performance das consultas futuras. Em seguida, é feita uma verificação para garantir que a tabela foi criada com sucesso. Se a tabela não existir, o script exibirá uma mensagem de erro e encerrará a execução.
+
+O script itera sobre as 24 horas do dia e faz uma busca na tabela api_summary para realizar a projeção. Para cada hora, é feita uma consulta no banco de dados para obter todos os dados da tabela api_summary que correspondem à hora atual. Se não houver dados para a hora atual, o script exibe uma mensagem de aviso e passa para a próxima hora.
+
+Caso haja dados disponíveis, o script converte a coluna "data" em um objeto datetime e cria uma coluna "valor" para armazenar o valor numérico do campo "total". Em seguida, os dados são agrupados por API, aplicação e a média horária dos valores é calculada para cada API e aplicação. Depois disso, são criadas colunas para o dia da semana e a hora do dia.
+
+O próximo passo é ajustar um modelo de regressão linear para cada API e aplicação e prever os valores futuros para cada API e aplicação. As projeções são armazenadas em um dicionário e, em seguida, inseridas na tabela api_projection do banco de dados.
+
+Por fim, o script fecha a conexão com o banco de dados e registra uma mensagem indicando que a aplicação foi concluída com sucesso. Se ocorrer algum erro ao estabelecer a conexão com o banco de dados, o script exibirá uma mensagem de erro e encerrará a execução.
+
+O Código fonte está no script **FutureCast.py** deste projeto:
+
+[FutureCast.py](https://github.com/leoberbert/FutureCast/blob/main/FutureCast.py)
+
