@@ -158,7 +158,8 @@ Caso queira utilizar alguma IDE compatível com Linux para realizar a validaçã
 # Visualização dos dados:
 
 Agora vamos à parte mais interessante: visualizar os dados. Para isso, é necessário ter o Grafana instalado no sistema. Além disso, o plugin frser-sqlite-datasource precisa ser instalado. Ele pode ser baixado a partir do link abaixo, onde também estão disponíveis as instruções passo a passo para a instalação:
-https://github.com/fr-ser/grafana-sqlite-datasource/releases">https://github.com/fr-ser/grafana-sqlite-datasource/releases
+
+[grafana-sqlite-datasource](https://github.com/fr-ser/grafana-sqlite-datasource/releases)
 
 Primeiramente, vamos adicionar o datasource do SQLite ao Grafana conforme demonstrado na imagem abaixo:
 
