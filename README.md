@@ -68,3 +68,174 @@ O Código fonte está no script **FutureCast.py** deste projeto:
 
 [FutureCast.py](https://github.com/leoberbert/FutureCast/blob/main/FutureCast.py)
 
+Perceba que será criado um diretório chamado logs onde o script for executado. O log bem intuivo para ajudar no entendimento:
+```
+2023-04-14 14:03:07,740 - PID=20208 - INFO - Iniciando a conexão com o banco de dados ...
+2023-04-14 14:03:07,742 - PID=20208 - INFO - Realizando busca na tabela api_summary para realizar a projeção...
+2023-04-14 14:03:07,754 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 0
+2023-04-14 14:03:07,766 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 1
+2023-04-14 14:03:07,778 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 2
+2023-04-14 14:03:07,790 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 3
+2023-04-14 14:03:07,805 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 4
+2023-04-14 14:03:07,817 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 5
+2023-04-14 14:03:07,829 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 6
+2023-04-14 14:03:07,841 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 7
+2023-04-14 14:03:07,890 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 8
+2023-04-14 14:03:07,911 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 9
+2023-04-14 14:03:07,931 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 10
+2023-04-14 14:03:07,965 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 11
+2023-04-14 14:03:07,987 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 12
+2023-04-14 14:03:08,002 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 13
+2023-04-14 14:03:08,014 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 14
+2023-04-14 14:03:08,048 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 15
+2023-04-14 14:03:08,063 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 16
+2023-04-14 14:03:08,075 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 17
+2023-04-14 14:03:08,103 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 18
+2023-04-14 14:03:08,118 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 19
+2023-04-14 14:03:08,130 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 20
+2023-04-14 14:03:08,141 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 21
+2023-04-14 14:03:08,150 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 22
+2023-04-14 14:03:08,160 - PID=20208 - INFO - Inserindo informações na tabela api_projection para a hora: 23
+2023-04-14 14:03:08,163 - PID=20208 - INFO - Aplicação finalizada com sucesso!!!
+```
+# Validação dos dados
+
+Agora vamos aprender como validar os dados inseridos nas tabelas criadas anteriormente. Para isso, vamos utilizar a biblioteca do Python para SQLite.
+
+Primeiramente, vamos conectar ao banco de dados usando a função connect() da biblioteca. Em seguida, criamos um cursor para executar comandos SQL no banco de dados.
+
+Para selecionar todos os dados da tabela api_summary, utilizamos o comando execute() com a query SELECT * FROM api_summary, e armazenamos os resultados na variável rows. Em seguida, imprimimos os dados da tabela com o comando print() e um loop que percorre todas as linhas da tabela.
+
+Da mesma forma, selecionamos todos os dados da tabela api_projection, imprimimos os dados e, por fim, fechamos a conexão com o banco de dados utilizando a função close().
+
+Para validar os dados inseridos, você pode alterar as queries de acordo com a sua necessidade, selecionando apenas os campos e tabelas que deseja analisar. O importante é garantir que os dados estejam coerentes e não tenham erros ou inconsistências.
+
+**Código Fonte:**
+
+```
+import sqlite3
+
+# Conectar-se ao banco de dados
+conn = sqlite3.connect('api_data.db')
+
+# Criar cursor
+cur = conn.cursor()
+
+# Selecionar todos os dados da tabela api_summary
+cur.execute("SELECT * FROM api_summary")
+rows = cur.fetchall()
+
+# Imprimir os dados da tabela api_summary
+print("Dados da tabela api_summary:")
+for row in rows:
+    print(row)
+
+# Selecionar todos os dados da tabela api_projection
+cur.execute("SELECT * FROM api_projection")
+rows = cur.fetchall()
+
+# Imprimir os dados da tabela api_projection
+print("
+Dados da tabela api_projection:")
+for row in rows:
+    print(row)
+
+# Fechar a conexão com o banco de dados
+conn.close()
+```
+Caso queira utilizar alguma IDE compatível com Linux para realizar a validação dos dados, seguem algumas que poderão ser baixadas e instaladas:
+
+1. **SQLiteStudio** - uma ferramenta multiplataforma com interface gráfica para gerenciamento de bancos de dados SQLite.
+
+2. **DB Browser for SQLite** - um aplicativo de código aberto e multiplataforma para gerenciamento de bancos de dados SQLite com interface gráfica.
+
+3. **DBeaver** - uma IDE de banco de dados gratuita e de código aberto com suporte para SQLite, MySQL, PostgreSQL e outros bancos de dados populares.
+
+4. **Sqliteman** - uma IDE de banco de dados SQLite de código aberto com uma interface gráfica de usuário fácil de usar.
+
+5. **SQLite Manager** - uma extensão do Firefox que permite gerenciar bancos de dados SQLite em um navegador
+
+# Visualização dos dados:
+
+Agora vamos à parte mais interessante: visualizar os dados. Para isso, é necessário ter o Grafana instalado no sistema. Além disso, o plugin frser-sqlite-datasource precisa ser instalado. Ele pode ser baixado a partir do link abaixo, onde também estão disponíveis as instruções passo a passo para a instalação:
+https://github.com/fr-ser/grafana-sqlite-datasource/releases">https://github.com/fr-ser/grafana-sqlite-datasource/releases
+
+Primeiramente, vamos adicionar o datasource do SQLite ao Grafana conforme demonstrado na imagem abaixo:
+
+![IMG01](https://user-images.githubusercontent.com/16724862/232487218-6888e60d-d24f-4025-b875-639d71c35c8c.jpg)
+
+Na tela seguinte, você irá localizar o arquivo api_data.db que foi criado nas execuções anteriores:
+
+![IMG02](https://user-images.githubusercontent.com/16724862/232487306-184ef598-6676-41d6-9a50-af4903fd6627.jpg)
+
+Feito o passo acima, basta clicar no botão "save & test".
+
+Agora vamos criar nosso tão esperado dashboard que irá nos mostrar os dados tanto do passado quanto do futuro para que possamos acompanhar se os mesmos são coerentes:
+
+![IMG03](https://user-images.githubusercontent.com/16724862/232487392-d27fa4a7-145e-443e-9c02-9775739944cc.jpg)
+
+Vamos adicionar um painel do tipo "Time Series":
+
+![IMG05](https://user-images.githubusercontent.com/16724862/232487485-bdf3cbf8-5d60-4412-a6a4-a4ed7f81b2be.jpg)
+
+Em seguida, selecionaremos o datasource que criamos anteriormente e criaremos algumas variáveis para que o uso fique mais dinâmico:
+
+![IMG06](https://user-images.githubusercontent.com/16724862/232487635-2fc87f94-51b7-4399-84dc-495189f74ae9.jpg)
+
+Agora que as coisas começam a ficar mais interessantes, iremos personalizar nossa variável, conforme mostrado abaixo:
+
+![IMG07](https://user-images.githubusercontent.com/16724862/232487757-cfaeee9c-7b00-4138-a3e4-4da64dac5e37.jpg)
+
+![IMG08](https://user-images.githubusercontent.com/16724862/232487916-def1c564-2c0c-4d9e-9912-637e75a6c351.jpg)
+
+Perceba que a variável "api" depende da variável application e deverão estar na seguinte ordem:
+
+![IMG09](https://user-images.githubusercontent.com/16724862/232488001-406db8a4-daf8-423c-9d39-aa4f7d333711.jpg)
+
+Agora, salvaremos nosso dashboard:
+
+![IMG10](https://user-images.githubusercontent.com/16724862/232488080-fce21b63-581e-49ff-b02b-cf5f7783a7e3.jpg)
+
+![IMG11](https://user-images.githubusercontent.com/16724862/232488240-d59d9e5d-7f51-4418-bd07-e85bfe1d0b73.jpg)
+
+Perceba que as variáveis que foram adicionadas já estarão disponíveis para uso:
+
+![IMG12](https://user-images.githubusercontent.com/16724862/232488278-797b10d0-e0ae-4de8-a212-d67b3e56a497.jpg)
+
+Agora, vamos editar nosso gráfico e inserir nossa query:
+
+![IMG13](https://user-images.githubusercontent.com/16724862/232488355-08599a77-dcfc-4890-9db3-c40b8fb95e9e.jpg)
+
+Inseriremos duas queries, sendo a query A para o dado futuro e a query B para o dado do passado. Mantivemos o dado passado no gráfico para ser possível visualizar o comportamento no qual foi baseado o cáculo para projeção do futuro.
+
+![IMG14](https://user-images.githubusercontent.com/16724862/232488488-6a713ac4-3e46-47c8-b889-5d018f17db2c.jpg)
+
+**Query A:**
+```
+SELECT
+strftime('%Y-%m-%dT%H:%M:%SZ', data) as time,
+total as projetado
+FROM api_projection
+WHERE api = '$api' AND application = '$application'
+ORDER BY data
+```
+**Query B:**
+```
+SELECT
+strftime('%Y-%m-%dT%H:%M:%SZ', data) as time,
+total as historic
+FROM api_summary
+WHERE api = '$api' AND application = '$application'
+ORDER BY data
+```
+Perceba que estamos utilizando as variáveis que criamos anteriormente para que, à medida que você selecione sua aplicação e sua API/serviço, o gráfico seja alterado de forma dinâmica.
+
+Por fim, salvaremos nosso dashboard e verificaremos como os dados foram projetados.
+
+![IMG15](https://user-images.githubusercontent.com/16724862/232488870-6a398257-2490-4fe8-a183-fe1a6bd5b241.jpg)
+
+Agora, você pode selecionar o período e ver o comportamento do gráfico:
+
+![IMG16](https://user-images.githubusercontent.com/16724862/232488993-a8e1817c-f919-492d-88eb-16ab3366f5ba.jpg)
+
+É importante ressaltar que, como utilizamos um script que insere dados de forma aleatória, a precisão pode ser impactada.
